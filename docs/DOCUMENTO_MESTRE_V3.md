@@ -2239,9 +2239,13 @@ Os sistemas da V3 devem **estender** o que existe, não substituir:
 | `NPCManager` + `data/npcs.json` | O formato de rotina é mantido e ganha campos de ficha (seção 61.2); o arquivo pode ser dividido por personagem |
 | `SaveSystem` v2 | Sobe para v3 com migração aditiva (seção 61.4) |
 
+### 44.4. Atualização — protótipo 0.2 "First Week" (14/10/2026)
+
+O marco 0.2 da seção 62 foi implementado sobre a base acima. Em resumo: grade semanal (`data/timetable.json`, `data/subjects.json`), `ClassSession` com Postura de Foco e blocos de 10 minutos, `ClassDirector` determinístico, Janela de Questão com ferramentas, banco mínimo da Unidade 1, Domínio e Cartões, Missões de Sala M-01 a M-04, oito fichas em `data/characters/` (que substituem `data/npcs.json`), mapa de assentos, criador em quatro passos, humor, diário, mesada, grupo da turma e save v3. As marcas `[PARCIAL — 0.2]` nas seções seguintes indicam o que passou a existir; o detalhamento do que ficou de fora está em `docs/DECISIONS.md`.
+
 ## 45. PROTAGONISTA V3 — IDENTIDADE, HISTÓRIA E CRESCIMENTO
 
-`[PARCIAL]` — o protótipo tem nome, pele e cabelo. Tudo o mais nesta seção é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — implementados: criador em quatro passos (identidade, origem e motivo, talento, até dois traços), efeitos de talento/origem nos atributos e no Domínio inicial, itens iniciais, humor com validade, diário noturno de três linhas com anotação, Domínio por matéria e reputação acadêmica. Sonho, segredos de ficha e os demais traços com efeito mecânico seguem `[PLANEJADO]`.
 
 ### 45.1. Princípio
 
@@ -2411,7 +2415,7 @@ Como o protagonista é personalizável, os retratos usam um **sistema por camada
 
 ## 46. SISTEMA DE AULAS V3 — MOMENTOS DE AULA, MISSÕES DE SALA E JANELA DE QUESTÃO
 
-`[PARCIAL]` — o protótipo tem períodos fixos, espera contextual e uma participação com duas escolhas. Tudo o mais é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — implementados: horário semanal, Postura de Foco, Diretor de Aula determinístico com `question`, `note`, `help_request` e `drowsy`, perguntas dirigidas a colegas, Janela de Questão (`choice` e `truefalse`, níveis 1–3, ferramentas Consultar caderno / Pedir ajuda / Não sei), Missões de Sala M-01 a M-04 em JSON e resumo de período. Momentos de matérias práticas, intensidade configurável e os demais momentos listados seguem `[PLANEJADO]`. Ver `docs/DECISIONS.md` para as exceções deliberadas ao orçamento de momentos.
 
 ### 46.1. Objetivos de design
 
@@ -2663,7 +2667,7 @@ A exposição avança em blocos de 10 minutos de jogo (cerca de 2 segundos reais
 
 ## 47. CURRÍCULO, CARTÕES DE CONTEÚDO, DOMÍNIO POR MATÉRIA E BANCO DE QUESTÕES
 
-`[PLANEJADO]`
+`[PARCIAL — 0.2]` — implementados: Domínio 0–100 por matéria com teto diário de +6 e +1 Conhecimento a cada 10 pontos; Cartões revelados por postura e pela Janela; banco mínimo da Unidade 1 (62 questões, 33 cartões) em Literatura, Matemática, Inglês e Ciências com validação automática das regras de autoria. Unidades 2+ e o restante do currículo seguem `[PLANEJADO]`.
 
 ### 47.1. Domínio por matéria
 
@@ -2872,7 +2876,7 @@ Entregue no Homeroom final do último dia letivo de cada trimestre (10 de julho,
 
 ## 49. ELENCO DE HOSHIKAWA — FICHAS DE PERSONAGENS
 
-`[PARCIAL]` — existem Yui Tanaka, Professor Sato e Ren Mori como NPCs de teste. Todos os demais são `[PLANEJADO]`. Nomes, aparências e histórias são originais; nenhuma ficha deve ser substituída por personagens de outras obras.
+`[PARCIAL — 0.2]` — existem oito fichas em `data/characters/`: Yui, Aiko, Daichi, Kenta, Hina e Tsubasa (1-A, com Domínio próprio, bilhetes, falas e pedidos de ajuda), Professor Sato e Ren Mori. Os demais são `[PLANEJADO]`. Nomes, aparências e histórias são originais; nenhuma ficha deve ser substituída por personagens de outras obras.
 
 Convenções: idades no início do Ano 1; aniversários no calendário de 14 dias; "ritmo de confiança" multiplica os ganhos de vínculo nos primeiros níveis (rápido ×1,2 · normal ×1,0 · lento ×0,8). "Relação possível" indica o teto narrativo com o protagonista; romance nunca é obrigatório e vale para qualquer tratamento escolhido pelo jogador.
 
@@ -3117,7 +3121,7 @@ Completam as 30 carteiras. Têm nome, uma característica, rotina simples e fala
 
 ## 50. MAPA DE ASSENTOS DA 1-A E DINÂMICA DE VIZINHOS
 
-`[PARCIAL]` — a sala do protótipo tem 12 carteiras e Yui ocupa a "carteira 02". A sala final tem 30 carteiras em cinco colunas (A a E) e seis fileiras (1 a 6). A coluna A fica junto às janelas; a coluna E, junto à porta do corredor. A fileira 1 é a da frente.
+`[PARCIAL — 0.2]` — a sala do protótipo tem 12 carteiras lidas de `data/classrooms/1a.json` (colunas A–D, fileiras 1–3), o protagonista em C2 e seis colegas sentados ao redor com placas de nome; vizinhos adjacentes alimentam bilhetes, pedidos de ajuda e a ferramenta Pedir ajuda. A sala final tem 30 carteiras em cinco colunas (A a E) e seis fileiras (1 a 6). A coluna A fica junto às janelas; a coluna E, junto à porta do corredor. A fileira 1 é a da frente.
 
 ### 50.1. Mapa do primeiro trimestre (abril a julho)
 
@@ -3199,7 +3203,7 @@ O mapa fica em `data/classrooms/1a.json` com `seat`, `npc_id`, restrições e o 
 
 ## 52. SISTEMA DE VÍNCULO V3 — NÍVEIS, CONVERSAS, PRESENTES, SAÍDAS E ROMANCE
 
-`[PARCIAL]` — o protótipo tem vínculo 0–1000, +15 por primeira conversa do dia e escolha entre Empatia e Carisma. O restante é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — o protótipo tem vínculo 0–1000, níveis 50/150/300/500/750 com nomes, +15 por primeira conversa do dia (+3 Sociável), ganhos por bilhetes, ajuda em aula, conversa baixinha e missões. Presentes, saídas, Distante e romance são `[PLANEJADO]`.
 
 ### 52.1. Níveis
 
@@ -3280,7 +3284,7 @@ Regras: relacionamentos apropriados à idade, sem conteúdo explícito; um namor
 
 ## 53. MISSÕES E OBJETIVOS
 
-`[PARCIAL]` — o protótipo usa flags para o objetivo de tutorial. A estrutura abaixo é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — as Missões de Sala usam `GameState.quests[id]` com estados `active`/`completed` e passos em JSON; o objetivo do HUD cobre a primeira semana. O restante da estrutura abaixo é `[PLANEJADO]`.
 
 ### 53.1. Categorias
 
@@ -3628,7 +3632,7 @@ Aniversários de professores e moradores (Sato 8 fev, Hill 12 jun, Fujii 10 set,
 
 ## 57. TRABALHOS, MESADA E TABELA DE PREÇOS
 
-`[PARCIAL]` — o protótipo tem ¥1.500 iniciais, onigiri a ¥200 e compra na máquina. O restante é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — o protótipo tem ¥1.500 iniciais, onigiri a ¥200, compra na máquina e mesada de ¥3.000 às segundas a partir de 8 de abril. O restante é `[PLANEJADO]`.
 
 ### 57.1. Renda
 
@@ -3681,7 +3685,7 @@ A economia deve permitir que quem não trabalha viva bem com a mesada, e que que
 
 ## 58. CELULAR V3 — APLICATIVOS E MENSAGENS
 
-`[PARCIAL]` — o protótipo abre o celular com agenda, personagem e contatos. O conjunto abaixo é `[PLANEJADO]`.
+`[PARCIAL — 0.2]` — o celular tem Agenda (horário do dia), Caderno (Domínio, Cartões, páginas), Personagem, Contatos (níveis), Turma (dez mensagens somente leitura) e Diário. Responder mensagens e os demais aplicativos são `[PLANEJADO]`.
 
 ### 58.1. Aplicativos
 
@@ -3815,7 +3819,7 @@ Balanço do dia: três Janelas de Questão (Ciências, Inglês ×2), um bilhete,
 
 ## 61. ARQUITETURA TÉCNICA V3 — MÓDULOS, DADOS, SAVE V3 E MIGRAÇÃO
 
-`[PLANEJADO]` — tudo aqui descreve a forma pretendida. Nenhum dos arquivos novos existe; os existentes estão marcados.
+`[PARCIAL — 0.2]` — existem `seeded_rng.gd`, `timetable.gd`, `class_session.gd`, `class_director.gd`, `class_missions.gd`, `question_bank.gd`, `seat_map.gd`, `day_cycle.gd`, os dados de `data/characters/`, `data/classrooms/`, `data/questions/`, `data/cards/`, `data/missions/class/`, `data/timetable.json`, `data/subjects.json`, `data/class_moments.json`, `data/messages.json`, e o save v3 com migração v2 → v3. Os nomes finais de alguns módulos diferem do previsto aqui (por exemplo, `ClassSession` em vez de `ClassDirector` como dono do fluxo); `docs/DECISIONS.md` registra as diferenças. O restante segue `[PLANEJADO]`.
 
 ### 61.1. Módulos
 
@@ -3947,6 +3951,7 @@ Cada marco é jogável do início ao fim e fecha um escopo. O marco seguinte só
 | Marco | Nome | Escopo | Critério de aceite |
 |---|---|---|---|
 | **0.1** | First Day | Ciclo da seção 40 | Concluído em testes headless; validação manual pendente |
+| **0.2 (estado)** | First Week | Implementado em 14/10/2026 (ver `README.md`, `docs/DECISIONS.md`, `docs/VALIDATION.md`) | 188 verificações headless; semana simulada sem repetir Janela, três vínculos no nível 1, save v2 migrado; validação manual pendente |
 | **0.2** | **First Week** | Sete dias (1 a 7 de abril). Horário semanal; Postura de Foco; Diretor de Aula com `question`, `note`, `help_request`, `drowsy`; **Janela de Questão** com `choice` e `truefalse`; Missões de Sala M-01 a M-04; banco mínimo de 60 questões de U1 (Literatura, Matemática, Inglês, Ciências); Domínio por matéria; Cartões; seis colegas sentados com fichas curtas (Yui, Aiko, Daichi, Kenta, Hina, Tsubasa) e vizinhos funcionais; criação em quatro passos com traços e talento; humor e diário básicos; mesada; grupo da turma com 10 mensagens | Jogar os sete dias sem repetir uma Janela; três vínculos chegarem ao nível 1; save v3 migrando o v2 |
 | **0.3** | **First Month** | Abril completo. Semana dos clubes com três clubes (Literatura, Basquete, Artes) e loop de treino simples; eleição de representante; Pesquisa de Futuro; dever de casa; Desafio da semana; 1-A com as 30 carteiras; outros 1º anos e três professores novos (Kawaguchi, Hill, Fujii); Café Hoshizora e permissão de trabalho; centro comercial em versão reduzida; Momo e Mochi | Chegar a 14 de abril com clube escolhido, um emprego e o primeiro dever entregue |
 | **0.4** | **First Term** | Maio a julho. Provas intermediárias e finais com ranking e boletim; Golden Week; redação (M-07); excursão a Shiosaki; estação chuvosa e guarda-chuva; competição de natação; Tanabata; aposentadoria dos veteranos; todos os clubes; romance até a etapa Sinais; 480 questões | Dois boletins entregues; um romance em Sinais; relatório de desempenho em PC intermediário |
