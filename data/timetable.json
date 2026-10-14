@@ -1,0 +1,10 @@
+{
+ "class": "1-A",
+ "weekdays": [
+  ["literature", "math", "english", "science", "history", "pe"],
+  ["math", "literature", "science", "english", "art", "art"],
+  ["english", "math", "literature", "history", "pe", "home_ec"],
+  ["science", "literature", "math", "english", "history", "lhr"],
+  ["math", "science", "literature", "home_ec", "pe", "study"]
+ ]
+}

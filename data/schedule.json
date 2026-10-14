@@ -1,11 +1,11 @@
 [
- {"id":"homeroom","title":"Homeroom","subject":"Disciplina","start":505,"end":515},
- {"id":"literature","title":"Japonês e Literatura","subject":"Conhecimento","start":520,"end":570},
- {"id":"math","title":"Matemática","subject":"Conhecimento","start":580,"end":630},
- {"id":"english","title":"Inglês","subject":"Carisma","start":640,"end":690},
- {"id":"science","title":"Ciências","subject":"Conhecimento","start":700,"end":750},
- {"id":"art","title":"Artes","subject":"Criatividade","start":795,"end":845},
- {"id":"sports","title":"Educação Física","subject":"Condicionamento","start":855,"end":905},
- {"id":"cleaning","title":"Limpeza escolar","subject":"Disciplina","start":905,"end":920},
- {"id":"closing","title":"Homeroom final","subject":"Disciplina","start":920,"end":930}
+ {"id":"homeroom","title":"Homeroom","kind":"homeroom","start":505,"end":515},
+ {"id":"p1","title":"1º período","kind":"class","slot":1,"start":520,"end":570},
+ {"id":"p2","title":"2º período","kind":"class","slot":2,"start":580,"end":630},
+ {"id":"p3","title":"3º período","kind":"class","slot":3,"start":640,"end":690},
+ {"id":"p4","title":"4º período","kind":"class","slot":4,"start":700,"end":750},
+ {"id":"p5","title":"5º período","kind":"class","slot":5,"start":795,"end":845},
+ {"id":"p6","title":"6º período","kind":"class","slot":6,"start":855,"end":905},
+ {"id":"cleaning","title":"Limpeza escolar","kind":"duty","start":905,"end":920},
+ {"id":"closing","title":"Homeroom final","kind":"homeroom","start":920,"end":930}
 ]

@@ -1,0 +1,18 @@
+{"id":"aiko","name":"Aiko Fujimoto","kanji":"藤本 愛子","role":"Estudante · turma 1-A","grade":1,"class":"1-A","birthday":{"month":8,"day":3},
+ "skin":"d4a47e","hair":"2b2a33","coat":"3c5b68","style":"student",
+ "traits":["expansiva","organizadora","impaciente"],"club":"swimming","trust_pace":1.2,
+ "interests":["natação","organizar","cidade grande"],"accepts_chat":true,
+ "mastery":{"literature":35,"math":40,"english":38,"science":36,"history":30,"pe":65,"art":25,"home_ec":45},
+ "intro":"Ah, você é a pessoa nova! Eu sou a Aiko. A Yui já me falou de você — ela fala pouco, então isso é um elogio.\n\nSe precisar de qualquer coisa na escola, me pergunta. Eu já decorei o mapa inteiro.",
+ "reply":"Combinado! Eu treino natação de tarde, mas de manhã sempre venho com a Yui pela rua das cerejeiras. Aparece lá.",
+ "repeat":"Já conversamos hoje! Vai, senão a Yui vai desenhar a gente aqui parados.",
+ "notes":["“Depois da aula a gente vai na máquina de lanches. Vem?”","“A Yui tá desenhando o Sato de novo. Olha o caderno dela.”"],
+ "chat_lines":["Aiko cochicha o cronograma inteiro da semana de clubes, de cor.","“Na capital tem piscina olímpica coberta, né? Aqui a gente treina no frio até maio.”"],
+ "routine":[
+  {"start":390,"scene":"neighborhood","point":[-6,0,12],"activity":"Conversando com Yui"},
+  {"start":440,"scene":"neighborhood","point":[1,0,-24],"via":[[-1,0,12],[-1,0,-22]],"activity":"Indo para a escola"},
+  {"start":490,"scene":"classroom","point":"seat:B1","activity":"Na carteira"},
+  {"start":750,"scene":"school_hall","point":[-3,0,1],"activity":"Almoçando com Yui"},
+  {"start":795,"scene":"classroom","point":"seat:B1","activity":"Em aula"},
+  {"start":930,"scene":"offscreen","point":[0,0,0],"activity":"Treino de natação"}],
+ "weekend":{"scene":"neighborhood","point":[-5.5,0,12.5],"activity":"Posando para Yui"}}

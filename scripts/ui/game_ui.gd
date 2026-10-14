@@ -25,6 +25,8 @@ var toast_remaining: float = 0
 var current_modal: String = ""
 var playing: bool = false
 var close_allowed: bool = true
+## Set by Game: resolves character ids to display names (NPCManager.display_name).
+var resolve_name: Callable = func(id: String) -> String: return id.capitalize()
 
 func _ready() -> void:
 	layer = 10
@@ -134,7 +136,7 @@ func _build_hud() -> void:
 	var goal_panel := _panel(hud,Vector4(0,0,0,0),Vector4(30,166,370,270))
 	var goal_box := VBoxContainer.new()
 	goal_panel.add_child(goal_box)
-	goal_box.add_child(label("SEU PRIMEIRO DIA",12,ACCENT))
+	goal_box.add_child(label("SUA PRIMEIRA SEMANA",12,ACCENT))
 	goal_label = label("",16,INK,true)
 	goal_box.add_child(goal_label)
 	var energy_panel := _panel(hud,Vector4(0,1,0,1),Vector4(30,-121,257,-30))
@@ -187,13 +189,13 @@ func refresh() -> void:
 	location_label.text = names.get(GameState.scene_id,"Hoshikawa")
 	schedule_label.text = SchoolSchedule.next_label()
 	goal_label.text = GameState.objective()
-	energy_label.text = "Energia · %d" % int(GameState.energy)
+	energy_label.text = "Energia · %d   ·   %s" % [int(GameState.energy), GameState.mood_name()]
 	energy_bar.value = GameState.energy
 
 func _process(delta: float) -> void:
 	if playing:
 		energy_bar.value = GameState.energy
-		energy_label.text = "Energia · %d" % int(GameState.energy)
+		energy_label.text = "Energia · %d   ·   %s" % [int(GameState.energy), GameState.mood_name()]
 	if toast_remaining > 0:
 		toast_remaining -= delta
 		toast_label.visible = true
@@ -228,7 +230,7 @@ func main_menu() -> void:
 	spacer.custom_minimum_size.y = 28
 	box.add_child(spacer)
 	box.add_child(label("School\nLife",90))
-	box.add_child(label("F I R S T   D A Y",18,ACCENT))
+	box.add_child(label("F I R S T   W E E K",18,ACCENT))
 	box.add_child(label("Uma nova cidade. Um novo caderno.\nUma história que começa com você.",21,MUTED,true))
 	var fill := Control.new()
 	fill.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -244,7 +246,7 @@ func main_menu() -> void:
 		var item := button(entry[0],func(): command.emit(action,{}))
 		item.add_theme_font_size_override("font_size",15)
 		row.add_child(item)
-	box.add_child(label("PRÉ-ALPHA 0.1  ·  GODOT 4.7.2\nArte e sistemas em desenvolvimento",13,MUTED))
+	box.add_child(label("PRÉ-ALPHA 0.2  ·  GODOT 4.7.2\nArte e sistemas em desenvolvimento",13,MUTED))
 
 func begin_play() -> void:
 	playing = true
@@ -317,60 +319,313 @@ func text_block(text: String) -> void:
 func option(text: String, action: String, payload: Dictionary = {}, primary: bool = false) -> void:
 	modal_body.add_child(button(text,func(): command.emit(action,payload),primary))
 
-func show_character_creator() -> void:
-	open_modal("Um novo começo","CRIE SEU PROTAGONISTA","creator")
+func speech(speaker: String, text: String) -> void:
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation",2)
+	box.add_child(label(speaker.to_upper(),12,ACCENT))
+	box.add_child(label(text,20,INK,true))
+	modal_body.add_child(box)
+
+func card_block(text: String) -> void:
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel",_style(Color("eef0e2"),10,16))
+	panel.add_child(label(text,17,INK,true))
+	modal_body.add_child(panel)
+
+## Renders a "screen" dictionary produced by ClassSession (seção 46.3): body blocks, option
+## buttons, an answer grid and tool buttons. Every button emits command("class_cmd", payload).
+func render_screen(screen: Dictionary) -> void:
+	if screen.is_empty():
+		return
+	open_modal(str(screen.get("title","Aula")),str(screen.get("kicker","VIDA ESCOLAR")),"class",false)
+	for block in screen.get("body",[]):
+		if block is String:
+			text_block(block)
+		elif block.has("speaker"):
+			speech(str(block.speaker),str(block.text))
+		elif block.has("muted"):
+			modal_body.add_child(label(str(block.muted),15,MUTED,true))
+		elif block.has("card"):
+			card_block(str(block.card))
+		else:
+			text_block(str(block.get("text","")))
+	var grid_items: Array = screen.get("grid",[])
+	if not grid_items.is_empty():
+		var grid := GridContainer.new()
+		grid.columns = 2
+		grid.add_theme_constant_override("h_separation",12)
+		grid.add_theme_constant_override("v_separation",12)
+		modal_body.add_child(grid)
+		for entry in grid_items:
+			var payload: Dictionary = entry.payload
+			var item := button(str(entry.text),func(): command.emit("class_cmd",payload))
+			item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			item.custom_minimum_size = Vector2(320,58)
+			item.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			item.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			grid.add_child(item)
+	var tools: Array = screen.get("tools",[])
+	if not tools.is_empty():
+		var row := HBoxContainer.new()
+		modal_body.add_child(row)
+		for entry in tools:
+			var payload: Dictionary = entry.payload
+			var item := button(str(entry.text),func(): command.emit("class_cmd",payload))
+			item.add_theme_font_size_override("font_size",15)
+			item.custom_minimum_size.y = 40
+			row.add_child(item)
+	for entry in screen.get("options",[]):
+		var payload: Dictionary = entry.payload
+		var item := button(str(entry.text),func(): command.emit("class_cmd",payload),bool(entry.get("primary",false)))
+		item.disabled = bool(entry.get("disabled",false))
+		item.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		modal_body.add_child(item)
+		var hint := str(entry.get("hint",""))
+		if not hint.is_empty():
+			modal_body.add_child(label(hint,13,MUTED,true))
+	if screen.has("footer"):
+		modal_body.add_child(label(str(screen.footer),13,MUTED,true))
+
+## Four-step creator (seção 45.2): identity, origin, talent, traits. Steps share one draft dictionary.
+var creator_draft: Dictionary = {}
+
+func show_character_creator(step: int = 1) -> void:
+	if step == 1 and creator_draft.is_empty():
+		creator_draft = {"name":"Haru","skin":0,"hair":0,"origin":"capital","reason":"own_choice","talent":"dedicated","traits":[]}
+	var titles := {1:"Um novo começo",2:"De onde você vem",3:"O que você faz bem",4:"Como você é"}
+	open_modal(str(titles[step]),"CRIE SEU PROTAGONISTA  ·  PASSO %d DE 4" % step,"creator")
+	match step:
+		1: _creator_identity()
+		2: _creator_origin()
+		3: _creator_talent()
+		4: _creator_traits()
+
+func _creator_nav(step: int, next_text: String = "Próximo   →") -> void:
+	var row := HBoxContainer.new()
+	modal_body.add_child(row)
+	if step > 1:
+		row.add_child(button("←   Voltar",func(): show_character_creator(step-1)))
+	var forward := button(next_text,func():
+		if step < 4:
+			show_character_creator(step+1)
+		else:
+			var draft := creator_draft.duplicate(true)
+			creator_draft = {}
+			command.emit("new",{"name":draft.name,"skin":["efbd98","d4a47e","bc896d","805941"][draft.skin],"hair":["393940","76523c","a36344","3a5262"][draft.hair],
+				"origin":draft.origin,"reason":draft.reason,"talent":draft.talent,"traits":draft.traits}),true)
+	forward.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(forward)
+
+func _creator_identity() -> void:
 	text_block("Você acaba de se mudar para a casa da sua avó em Hoshikawa. Amanhã é o começo de uma nova história — e ela precisa de um nome.")
 	modal_body.add_child(label("COMO VOCÊ SE CHAMA?",13,MUTED))
 	var name_input := LineEdit.new()
-	name_input.text = "Haru"
+	name_input.text = str(creator_draft.name)
 	name_input.max_length = 24
 	name_input.custom_minimum_size.y = 48
+	name_input.text_changed.connect(func(value: String): creator_draft.name = value)
 	modal_body.add_child(name_input)
 	var skin_picker := OptionButton.new()
 	for color_name in ["Pele · clara","Pele · média","Pele · morena","Pele · escura"]:
 		skin_picker.add_item(color_name)
+	skin_picker.selected = int(creator_draft.skin)
 	skin_picker.custom_minimum_size.y = 46
+	skin_picker.item_selected.connect(func(index: int): creator_draft.skin = index)
 	modal_body.add_child(skin_picker)
 	var hair_picker := OptionButton.new()
 	for color_name in ["Cabelo · preto","Cabelo · castanho","Cabelo · acobreado","Cabelo · azul escuro"]:
 		hair_picker.add_item(color_name)
+	hair_picker.selected = int(creator_draft.hair)
 	hair_picker.custom_minimum_size.y = 46
+	hair_picker.item_selected.connect(func(index: int): creator_draft.hair = index)
 	modal_body.add_child(hair_picker)
 	modal_body.add_child(label("Aparência simplificada de protótipo. Editor completo planejado.",14,MUTED,true))
 	if SaveSystem.exists():
 		modal_body.add_child(label("Seu save atual só será substituído quando você salvar ou dormir nesta nova partida.",14,ACCENT,true))
-	modal_body.add_child(button("Começar meu primeiro dia   →",func():
-		command.emit("new",{"name":name_input.text,"skin":["efbd98","d4a47e","bc896d","805941"][skin_picker.selected],"hair":["393940","76523c","a36344","3a5262"][hair_picker.selected]}),true))
+	_creator_nav(1)
+
+func _creator_origin() -> void:
+	text_block("Ninguém chega a Hoshikawa por acaso. De onde você veio — e por quê?")
+	modal_body.add_child(label("ORIGEM",13,MUTED))
+	var descriptions := {"capital":"Trânsito, trens lotados e silêncio em casa. Você começa com um Cartão de trem antigo.",
+		"countryside":"Montanhas, vizinhos que sabem seu nome. Você começa com um Amuleto do vilarejo.",
+		"abroad":"Alguns anos fora do Japão. +15 Domínio em Inglês, −5 em Literatura. Você começa com um Caderno bilíngue."}
+	for id in GameState.ORIGINS:
+		var origin_id: String = id
+		modal_body.add_child(button("%s%s" % [GameState.ORIGINS[id].name, "   ✓" if creator_draft.origin == id else ""],func():
+			creator_draft.origin = origin_id
+			show_character_creator(2),creator_draft.origin == id))
+		modal_body.add_child(label(descriptions[id],13,MUTED,true))
+	modal_body.add_child(label("MOTIVO DA MUDANÇA",13,MUTED))
+	var reason_picker := OptionButton.new()
+	var reason_ids: Array = GameState.REASONS.keys()
+	for id in reason_ids:
+		reason_picker.add_item(GameState.REASONS[id])
+	reason_picker.selected = reason_ids.find(creator_draft.reason)
+	reason_picker.custom_minimum_size.y = 46
+	reason_picker.item_selected.connect(func(index: int): creator_draft.reason = reason_ids[index])
+	modal_body.add_child(reason_picker)
+	_creator_nav(2)
+
+func _creator_talent() -> void:
+	text_block("Todo mundo chega com alguma coisa. O talento define seus atributos iniciais e um bônus de Domínio.")
+	var descriptions := {"dedicated":"Estuda com método. Conhecimento e Disciplina altos.","athlete":"Corre todas as manhãs. Condicionamento alto.",
+		"artist":"Desenha em qualquer papel. Criatividade alta.","social":"Faz amigos em cinco minutos. Carisma alto."}
+	for id in GameState.TALENTS:
+		var talent_id: String = id
+		var talent: Dictionary = GameState.TALENTS[id]
+		var stats: Array = []
+		for key in talent.stats:
+			stats.append("%s %d" % [key.left(4), talent.stats[key]])
+		modal_body.add_child(button("%s%s" % [talent.name, "   ✓" if creator_draft.talent == id else ""],func():
+			creator_draft.talent = talent_id
+			show_character_creator(3),creator_draft.talent == id))
+		modal_body.add_child(label("%s\n%s · +10 Domínio em %s · item: %s" % [descriptions.get(id,""), " · ".join(stats), Timetable.subject_name(str(talent.mastery)), talent.item],13,MUTED,true))
+	_creator_nav(3)
+
+func _creator_traits() -> void:
+	text_block("Escolha até dois traços. Eles mudam pequenas coisas: o custo de ignorar um bilhete, a chance de um flagrante, quem gosta de você primeiro.")
+	var descriptions := {"curious":"Em aula, 20% de chance de um cartão extra ao prestar atenção.","shy":"Ignorar bilhetes e recusar conversas não custa nada.",
+		"sociable":"+3 vínculo em toda conversa.","competitive":"Acertar perguntas difíceis rende um pouco mais de reputação (próximo marco).",
+		"careful":"Risco de flagrante em aula reduzido pela metade.","playful":"Tsubasa gosta de você de cara: +50 vínculo na primeira conversa.",
+		"dreamer":"Sabor por enquanto: muda falas e o diário em marcos futuros.","practical":"Sabor por enquanto: muda falas e o diário em marcos futuros.",
+		"stubborn":"Sabor por enquanto: muda falas e o diário em marcos futuros.","observant":"Sabor por enquanto: muda falas e o diário em marcos futuros."}
+	var picked: Array = creator_draft.traits
+	for id in GameState.TRAITS:
+		var trait_id: String = id
+		var selected := picked.has(id)
+		var item := button("%s%s" % [GameState.TRAITS[id], "   ✓" if selected else ""],func():
+			if picked.has(trait_id):
+				picked.erase(trait_id)
+			elif picked.size() < 2:
+				picked.append(trait_id)
+			show_character_creator(4),selected)
+		item.disabled = not selected and picked.size() >= 2
+		modal_body.add_child(item)
+		modal_body.add_child(label(descriptions.get(id,""),13,MUTED,true))
+	modal_body.add_child(label("%s · %s · %s · %s" % [creator_draft.name, GameState.ORIGINS[creator_draft.origin].name, GameState.TALENTS[creator_draft.talent].name, ", ".join(picked.map(func(t): return GameState.TRAITS[t])) if not picked.is_empty() else "sem traços"],15,INK,true))
+	_creator_nav(4,"Começar minha primeira semana   →")
 
 func show_phone(tab: String = "agenda") -> void:
 	open_modal("Seu celular","%s  /  %s" % [GameState.player_name,GameTime.date_label()],"phone")
 	var tabs := HBoxContainer.new()
+	tabs.add_theme_constant_override("separation",6)
 	modal_body.add_child(tabs)
-	for entry in [["Agenda","agenda"],["Personagem","stats"],["Contatos","social"]]:
+	for entry in [["Agenda","agenda"],["Caderno","notebook"],["Personagem","stats"],["Contatos","social"],["Turma","group"],["Diário","diary"]]:
 		var id: String = entry[1]
-		tabs.add_child(button(entry[0],func(): show_phone(id),tab==id))
-	if tab == "agenda":
-		text_block("%s\n%s" % [GameState.objective(),SchoolSchedule.next_label()])
-		SchoolSchedule.load_data()
-		for period in SchoolSchedule.periods:
-			var key := GameTime.stamp()+":"+str(period.id)
-			var suffix := "  ·  concluído" if GameState.attendance.has(key) else ""
+		var item := button(entry[0],func(): show_phone(id),tab==id)
+		item.add_theme_font_size_override("font_size",14)
+		item.custom_minimum_size = Vector2(0,38)
+		tabs.add_child(item)
+	match tab:
+		"agenda": _phone_agenda()
+		"notebook": _phone_notebook()
+		"stats": _phone_stats()
+		"social": _phone_social()
+		"group": _phone_group()
+		"diary": _phone_diary()
+
+func _phone_agenda() -> void:
+	text_block("%s\n%s" % [GameState.objective(),SchoolSchedule.next_label()])
+	if GameTime.is_school_day():
+		for period in SchoolSchedule.day_periods():
+			var suffix := "  ·  concluído" if SchoolSchedule.attended(period) else ""
 			modal_body.add_child(label("%s – %s    %s%s" % [GameTime.clock(period.start),GameTime.clock(period.end),period.title,suffix],16,MUTED,true))
-		if not GameTime.is_school_day():
-			text_block("Fim de semana: não há aulas hoje. O horário acima é a referência dos dias letivos.")
-		option("Abrir calendário de 14 dias","calendar")
-	elif tab == "stats":
-		text_block("%s · %dº ano · Turma 1-A\n¥ %d  ·  Energia %d/100" % [GameState.player_name,GameTime.year,GameState.money,int(GameState.energy)])
-		for key in GameState.attributes:
-			modal_body.add_child(label("%s     %d / 100" % [key,GameState.attributes[key]],19))
-		text_block("Atividades escolares concluídas: %d\nClube: ainda não disponível neste protótipo." % GameState.attendance.size())
 	else:
-		if GameState.relationships.is_empty():
-			text_block("Uma cidade cheia de novos rostos. Converse com alguém para adicionar seu primeiro contato.")
-		for id in GameState.relationships:
-			var names := {"yui":"Yui Tanaka","ren":"Ren Mori","sato":"Professor Sato"}
-			text_block("%s\nVínculo inicial: %d / 1000" % [names.get(id,id),GameState.relationships[id]])
-		modal_body.add_child(label("Esta versão valida apenas conhecer e conversar. Eventos de amizade, convites e romances ainda não foram implementados.",15,MUTED,true))
+		text_block("Fim de semana: não há aulas hoje. Segunda-feira o horário da 1-A recomeça com Homeroom às 08:25.")
+	var next_allowance := "Mesada: ¥%d toda segunda-feira, a partir de 8 de abril." % GameState.ALLOWANCE
+	modal_body.add_child(label(next_allowance,14,MUTED,true))
+	option("Abrir calendário de 14 dias","calendar")
+
+func _phone_notebook() -> void:
+	text_block("Domínio por matéria (0–100). Cada aula rende no máximo +6 por dia; a cada 10 pontos, +1 Conhecimento.")
+	for id in Timetable.core_subjects():
+		var subject_id: String = id
+		var owned := 0
+		var total := QuestionBank.card_ids(subject_id,1).size()
+		for card in QuestionBank.card_ids(subject_id,1):
+			if GameState.cards.has(card):
+				owned += 1
+		var pages := int(GameState.notebook_pages.get(subject_id,0))
+		var line := "%s     %d / 100" % [Timetable.subject_name(subject_id), GameState.mastery_of(subject_id)]
+		if total > 0:
+			line += "     cartões %d/%d" % [owned,total]
+		if pages > 0:
+			line += "     páginas %d" % pages
+		modal_body.add_child(label(line,17))
+	if GameState.cards.is_empty():
+		modal_body.add_child(label("Nenhum cartão ainda. Prestar atenção ou anotar em aula revela Cartões da unidade.",15,MUTED,true))
+	else:
+		modal_body.add_child(label("CARTÕES",13,ACCENT))
+		for id in GameState.cards:
+			var card := QuestionBank.card(str(id))
+			if not card.is_empty():
+				card_block("%s — %s" % [card.title, card.text])
+
+func _phone_stats() -> void:
+	var talent: Dictionary = GameState.TALENTS.get(str(GameState.background.get("talent","dedicated")),{})
+	text_block("%s · %dº ano · Turma 1-A · carteira %s\n¥ %d  ·  Energia %d/100  ·  Humor: %s" % [GameState.player_name,GameTime.year,SeatMap.player_seat(),GameState.money,int(GameState.energy),GameState.mood_name()])
+	modal_body.add_child(label("%s · %s · %s" % [GameState.ORIGINS.get(str(GameState.background.get("origin","capital")),{}).get("name","Capital"), talent.get("name","Dedicado"), ", ".join(GameState.background.get("traits",[]).map(func(t): return GameState.TRAITS.get(t,t))) if not GameState.background.get("traits",[]).is_empty() else "sem traços"],15,MUTED,true))
+	for key in GameState.attributes:
+		modal_body.add_child(label("%s     %d / 100" % [key,GameState.attributes[key]],19))
+	var rep: Dictionary = GameState.reputation
+	text_block("Reputação — acadêmica %d · social %d · esportiva %d · institucional %d\nOcorrências no trimestre: %d\nPeríodos concluídos: %d · Perguntas respondidas: %d (certas: %d)" % [rep.get("academic",0),rep.get("social",0),rep.get("sports",0),rep.get("institutional",0),int(GameState.discipline.get("term_points",0)),GameState.attendance.size(),GameState.counter("questions_answered"),GameState.counter("questions_correct")])
+	for item in GameState.inventory:
+		if str(item) != "Onigiri":
+			modal_body.add_child(label("Item pessoal: %s" % item,15,MUTED))
+	modal_body.add_child(label("Clube: ainda não disponível neste protótipo.",15,MUTED,true))
+
+func _phone_social() -> void:
+	if GameState.relationships.is_empty():
+		text_block("Uma cidade cheia de novos rostos. Converse com alguém para adicionar seu primeiro contato.")
+	var ids: Array = GameState.relationships.keys()
+	ids.sort_custom(func(a, b): return GameState.bond(a) > GameState.bond(b))
+	for id in ids:
+		var name := str(resolve_name.call(str(id)))
+		var seat := SeatMap.seat_of(str(id))
+		var level := GameState.bond_level(str(id))
+		var next_threshold := int(GameState.BOND_LEVELS[level]) if level < GameState.BOND_LEVELS.size() else 1000
+		text_block("%s%s\n%s · %d / %d" % [name, ("  ·  carteira %s" % seat) if not seat.is_empty() else "", GameState.bond_level_name(str(id)), GameState.bond(str(id)), next_threshold])
+	modal_body.add_child(label("Níveis de vínculo: 50 Conhecido · 150 Colega · 300 Amigo. Conversas, bilhetes e ajuda em aula contam.",15,MUTED,true))
+
+func _phone_group() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/messages.json"))
+	text_block(str(data.get("group","Grupo da 1-A")))
+	var shown := 0
+	for message in data.get("messages",[]):
+		var when := int(message.month) * 10000 + int(message.day) * 100 + 0
+		var now := GameTime.month * 10000 + GameTime.day * 100
+		if when > now or (when == now and int(message.minute) > GameTime.minute):
+			continue
+		shown += 1
+		var sender := str(resolve_name.call(str(message.from)))
+		var box := VBoxContainer.new()
+		box.add_theme_constant_override("separation",2)
+		box.add_child(label("%s  ·  %02d/%02d %s" % [sender.to_upper(), int(message.day), int(message.month), GameTime.clock(int(message.minute))],12,ACCENT))
+		box.add_child(label(str(message.text),17,INK,true))
+		modal_body.add_child(box)
+	if shown == 0:
+		modal_body.add_child(label("Ainda sem mensagens. O grupo da turma começa a se mexer depois do primeiro dia.",15,MUTED,true))
+	modal_body.add_child(label("Somente leitura nesta versão: responder no grupo chega com o sistema de mensagens (marco 0.3).",14,MUTED,true))
+
+func _phone_diary() -> void:
+	if GameState.diary.is_empty():
+		text_block("O diário começa na primeira noite. Ao dormir, o jogo resume o dia em três linhas e você pode acrescentar uma frase sua.")
+	var entries: Array = GameState.diary.duplicate()
+	entries.reverse()
+	for entry in entries:
+		var box := VBoxContainer.new()
+		box.add_theme_constant_override("separation",3)
+		box.add_child(label(str(entry.get("date","")),12,ACCENT))
+		for line in entry.get("lines",[]):
+			box.add_child(label("· " + str(line),16,INK,true))
+		if not str(entry.get("note","")).is_empty():
+			box.add_child(label("“%s”" % entry.note,16,MUTED,true))
+		modal_body.add_child(box)
+	if not GameState.day_log.is_empty():
+		modal_body.add_child(label("HOJE, ATÉ AGORA",13,ACCENT))
+		for line in GameState.day_log:
+			modal_body.add_child(label("· " + str(line),15,MUTED,true))
 
 func show_calendar() -> void:
 	open_modal("Seu calendário","ANO ESCOLAR %d  /  %s" % [GameTime.year,GameTime.season()],"calendar")

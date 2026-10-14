@@ -1,0 +1,14 @@
+{"id":"ren","name":"Ren Mori","kanji":"森 蓮","role":"Vizinho · corredor matinal","grade":1,"class":"1-B","birthday":{"month":6,"day":12},
+ "skin":"bc896d","hair":"242f39","coat":"c48360","style":"runner",
+ "traits":["disciplinado","direto"],"interests":["corrida","rio","tempo"],"accepts_chat":true,
+ "mastery":{"literature":30,"math":38,"english":33,"science":40,"history":30,"pe":80,"art":20,"home_ec":30},
+ "intro":"Ei, vizinho! Estou treinando para melhorar meu tempo. Hoje minha meta é só terminar sem parar.\n\nA escola fica ao norte, seguindo a rua das cerejeiras. Dá para ir tranquilo a pé.",
+ "reply":"Valeu pelo incentivo! Preciso continuar — meu treino não vai se completar sozinho. A gente se vê!",
+ "repeat":"Mais uma volta! E você, já encontrou seu caminho?",
+ "routine":[
+  {"start":390,"scene":"neighborhood","point":[3,0,19],"activity":"Correndo pelo bairro","patrol":[[3,0,19],[3,0,8],[3,0,-10],[0,0,-10],[0,0,19]]},
+  {"start":490,"scene":"school_hall","point":[4,0,0],"activity":"Organizando os armários"},
+  {"start":505,"scene":"offscreen","point":[0,0,0],"activity":"Em aula na turma 1-B"},
+  {"start":930,"scene":"neighborhood","point":[3,0,-10],"activity":"Treinando depois da aula","patrol":[[3,0,-10],[3,0,19],[0,0,19],[0,0,-10]]},
+  {"start":1080,"scene":"offscreen","point":[0,0,0],"activity":"Em casa"}],
+ "weekend":{"scene":"neighborhood","point":[3,0,19],"activity":"Treino de fim de semana","patrol":[[3,0,19],[3,0,-10],[0,0,-10],[0,0,19]]}}

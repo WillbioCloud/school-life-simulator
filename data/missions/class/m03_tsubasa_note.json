@@ -1,0 +1,34 @@
+{
+ "id": "m03_tsubasa_note",
+ "name": "O bilhete de Tsubasa",
+ "trigger": {"from": [4, 2], "to": [4, 5], "theory": true, "chance": 0.5, "neighbor": "tsubasa"},
+ "block": 3,
+ "steps": [
+  {"id": "note", "type": "choice", "speaker": "Tsubasa",
+   "text": "Um papel dobrado chega por baixo da carteira. É um desenho de {teacher} com um bigode gigantesco e a legenda “SÉRIO DEMAIS”.",
+   "options": [
+    {"text": "Rir baixinho", "risk": {"chance": 0.2, "text": "{teacher} para de escrever e olha para a sua fileira. Silêncio. “Começando bem, hein?” Ocorrência leve.", "effects": {"occurrence": 1, "bond": {"tsubasa": 4}}},
+     "effects": {"bond": {"tsubasa": 8}}, "next": "invite"},
+    {"text": "Devolver com um desenho seu", "requires": {"attribute": "Criatividade", "min": 8},
+     "effects": {"bond": {"tsubasa": 12}, "attributes": {"Criatividade": 1}}, "next": "invite_art"},
+    {"text": "Passar para Yui", "effects": {"bond": {"tsubasa": 4, "yui": 4}, "log": "Yui dobrou o bilhete, olhou o desenho e quase sorriu."}, "next": "invite"},
+    {"text": "Ignorar e guardar o papel", "effects": {"bond": {"tsubasa": -2}}, "next": "ignored"}
+   ]},
+  {"id": "invite", "type": "choice", "speaker": "Tsubasa",
+   "text": "No intervalo, Tsubasa aparece ao lado da sua carteira como se nada tivesse acontecido. “Sábado. Galaxy Game Center. Três da tarde. Vai?”",
+   "options": [
+    {"text": "“Vou.”", "effects": {"flags": ["tsubasa_note", "arcade_invite"], "bond": {"tsubasa": 10}, "mood": "upbeat", "log": "Tsubasa convidou você para o arcade no sábado. Você aceitou."}, "next": "end"},
+    {"text": "“Talvez outro dia.”", "effects": {"flags": ["tsubasa_note"], "log": "Tsubasa convidou você para o arcade. Você deixou para outro dia."}, "next": "end"}
+   ]},
+  {"id": "invite_art", "type": "choice", "speaker": "Tsubasa",
+   "text": "“Você DESENHA?!” Tsubasa fala alto demais e abaixa a voz na hora. “Agora é obrigatório: sábado, Galaxy Game Center, três da tarde.”",
+   "options": [
+    {"text": "“Vou.”", "effects": {"flags": ["tsubasa_note", "arcade_invite"], "bond": {"tsubasa": 10}, "mood": "upbeat", "log": "Tsubasa convidou você para o arcade no sábado. Você aceitou."}, "next": "end"},
+    {"text": "“Talvez outro dia.”", "effects": {"flags": ["tsubasa_note"], "log": "Tsubasa convidou você para o arcade. Você deixou para outro dia."}, "next": "end"}
+   ]},
+  {"id": "ignored", "type": "text",
+   "text": "Tsubasa dá de ombros atrás de você. O papel fica dobrado dentro do caderno — você não jogou fora.",
+   "effects": {"flags": ["tsubasa_note"], "log": "Tsubasa passou um bilhete. Você guardou sem responder."},
+   "next": "end"}
+ ]
+}

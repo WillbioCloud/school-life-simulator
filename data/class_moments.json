@@ -1,0 +1,18 @@
+{
+ "max_per_period": 2,
+ "max_windows_per_day": 3,
+ "moments": [
+  {"id":"question","name":"Pergunta do professor","weight":10,"theory":true,"needs_questions":true,"interactive":true,"player_chance":0.55},
+  {"id":"note","name":"Bilhete passado","weight":4,"theory":true,"needs_neighbor_bond":50,"interactive":true,"catch_chance":0.2},
+  {"id":"help_request","name":"Colega em apuros","weight":5,"theory":true,"needs_helper_neighbor":true,"interactive":true,"catch_chance":0.25},
+  {"id":"drowsy","name":"Sono em aula","weight":14,"max_energy":29,"interactive":true}
+ ],
+ "postures": [
+  {"id":"attention","name":"Prestar atenção","mastery":2,"cards":2,"energy":5,"risk":0.0,"theory_only":false,"hint":"+2 Domínio · revela 2 Cartões · −5 energia"},
+  {"id":"notes","name":"Anotar com cuidado","mastery":1,"cards":1,"energy":7,"risk":0.0,"notebook":1,"theory_only":true,"hint":"+1 Domínio · +1 Página de Caderno (libera Consultar caderno) · −7 energia"},
+  {"id":"review","name":"Revisar outra matéria","mastery":0,"cards":0,"energy":5,"risk":0.25,"theory_only":true,"hint":"+1 Domínio em outra matéria · risco 25%"},
+  {"id":"rest","name":"Descansar discretamente","mastery":0,"cards":0,"energy":-8,"risk":0.35,"theory_only":false,"hint":"+8 energia · risco 35% de ocorrência"},
+  {"id":"chat","name":"Conversar baixinho","mastery":0,"cards":0,"energy":3,"risk":0.30,"theory_only":true,"hint":"+8 vínculo com um vizinho · risco 30% para os dois"},
+  {"id":"window","name":"Olhar pela janela","mastery":0,"cards":0,"energy":2,"risk":0.20,"theory_only":true,"hint":"+1 Criatividade (1× por dia) · humor Inspirado · risco 20%"}
+ ]
+}

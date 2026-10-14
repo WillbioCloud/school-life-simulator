@@ -1,0 +1,10 @@
+[
+ {"id":"ma_u1_c01","subject":"math","unit":1,"title":"Por cento","text":"Porcentagem significa “por cem”: 15% = 15/100 = 0,15. Metade é 50%; um quarto é 25%."},
+ {"id":"ma_u1_c02","subject":"math","unit":1,"title":"Calcular x% de um valor","text":"Multiplique o valor por x/100. Exemplo: 20% de 300 = 300 × 0,20 = 60."},
+ {"id":"ma_u1_c03","subject":"math","unit":1,"title":"Desconto e acréscimo","text":"Desconto: preço − (preço × taxa). Acréscimo: preço + (preço × taxa). ¥200 com 15% de desconto custa ¥170."},
+ {"id":"ma_u1_c04","subject":"math","unit":1,"title":"Frações e porcentagens","text":"1/2 = 50%, 1/4 = 25%, 3/4 = 75%, 1/5 = 20%, 1/10 = 10%. Frações equivalentes representam a mesma parte."},
+ {"id":"ma_u1_c05","subject":"math","unit":1,"title":"Ordem das operações","text":"Primeiro parênteses, depois potências, depois multiplicação e divisão, por fim soma e subtração. 2 + 3 × 4 = 14."},
+ {"id":"ma_u1_c06","subject":"math","unit":1,"title":"Média aritmética","text":"Some os valores e divida pela quantidade. A média de 6, 8 e 10 é 24 ÷ 3 = 8."},
+ {"id":"ma_u1_c07","subject":"math","unit":1,"title":"Primos, múltiplos e divisores","text":"Número primo tem exatamente dois divisores: 1 e ele mesmo (2, 3, 5, 7, 11…). Múltiplos de 6: 6, 12, 18…"},
+ {"id":"ma_u1_c08","subject":"math","unit":1,"title":"Regra de três","text":"Grandezas proporcionais: se 3 onigiris custam ¥600, 5 custam ¥1.000 (600 ÷ 3 × 5)."}
+]

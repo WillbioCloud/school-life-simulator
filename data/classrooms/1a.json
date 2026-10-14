@@ -1,0 +1,11 @@
+{
+ "class": "1-A",
+ "note": "Sala do protótipo: 12 carteiras em 4 colunas (A junto à janela, D junto à porta) e 3 fileiras (1 = frente). A sala final terá 30 carteiras (seção 50 do Documento Mestre V3).",
+ "columns": {"A": -6, "B": -3, "C": 0, "D": 3},
+ "rows": {"1": -2, "2": 1.2, "3": 4.4},
+ "chair_offset": 0.9,
+ "player_seat": "C2",
+ "terms": {
+  "1": {"B1": "aiko", "C1": "daichi", "D1": "hina", "B2": "yui", "D2": "kenta", "C3": "tsubasa"}
+ }
+}
