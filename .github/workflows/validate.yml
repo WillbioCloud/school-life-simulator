@@ -1,0 +1,16 @@
+name: Validate Godot prototype
+on:
+  push:
+  pull_request:
+jobs:
+  first-day:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.7.2
+          use-dotnet: false
+          include-templates: false
+      - name: Import and integration tests
+        run: tests/run.sh
