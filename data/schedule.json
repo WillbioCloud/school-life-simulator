@@ -1,0 +1,11 @@
+[
+ {"id":"homeroom","title":"Homeroom","subject":"Disciplina","start":505,"end":515},
+ {"id":"literature","title":"Japonês e Literatura","subject":"Conhecimento","start":520,"end":570},
+ {"id":"math","title":"Matemática","subject":"Conhecimento","start":580,"end":630},
+ {"id":"english","title":"Inglês","subject":"Carisma","start":640,"end":690},
+ {"id":"science","title":"Ciências","subject":"Conhecimento","start":700,"end":750},
+ {"id":"art","title":"Artes","subject":"Criatividade","start":795,"end":845},
+ {"id":"sports","title":"Educação Física","subject":"Condicionamento","start":855,"end":905},
+ {"id":"cleaning","title":"Limpeza escolar","subject":"Disciplina","start":905,"end":920},
+ {"id":"closing","title":"Homeroom final","subject":"Disciplina","start":920,"end":930}
+]

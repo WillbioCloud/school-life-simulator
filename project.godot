@@ -1,0 +1,31 @@
+; School Life 3D — First Day. Open in Godot 4.7.2.
+config_version=5
+
+[application]
+config/name="School Life — First Day"
+config/description="Um primeiro dia em Hoshikawa. Protótipo 3D 0.1."
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://assets/icon.svg"
+
+[autoload]
+GameState="*res://scripts/core/game_state.gd"
+GameTime="*res://scripts/time/game_time.gd"
+SaveSystem="*res://scripts/core/save_system.gd"
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.73, 0.82, 0.81, 1)
+anti_aliasing/quality/msaa_3d=2
+
+[physics]
+common/physics_ticks_per_second=60
