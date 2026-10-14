@@ -6,6 +6,7 @@ var left_arm: Node3D
 var right_arm: Node3D
 var pace: float = 0.0
 var body: Node3D
+var seated: bool = false
 
 func build(skin: Color, hair: Color, coat: Color, style: String = "student") -> void:
 	body = Node3D.new()
@@ -44,7 +45,25 @@ func _limb(pos: Vector3, size: Vector3, color: Color) -> Node3D:
 	Geo.box(pivot,Vector3(0,-size.y/2,0),size,color)
 	return pivot
 
+## Simple seated pose for classroom NPCs: knees forward, body lowered to chair height.
+func set_seated(value: bool) -> void:
+	seated = value
+	if not is_instance_valid(body):
+		return
+	if seated:
+		left_leg.rotation.x = 1.45
+		right_leg.rotation.x = 1.45
+		left_arm.rotation.x = 0.9
+		right_arm.rotation.x = 0.9
+		body.position.y = -0.3
+	else:
+		left_arm.rotation.x = 0
+		right_arm.rotation.x = 0
+		body.position.y = 0
+
 func animate(delta: float, speed: float) -> void:
+	if seated:
+		return
 	pace += delta * (8.0 if speed < 4.5 else 12.0)
 	var amount := minf(speed / 5.0, 1.0) * 0.65
 	left_leg.rotation.x = sin(pace) * amount

@@ -1,0 +1,343 @@
+[
+ {
+  "id": "en_u1_001",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "choice",
+  "card": "en_u1_c01",
+  "prompt": "Como você se apresenta em inglês?",
+  "options": [
+   "My name is Haru.",
+   "My name are Haru.",
+   "Me name Haru.",
+   "I name is Haru."
+  ],
+  "answer": 0,
+  "explain": "“My name is…” é a forma correta; “is” acompanha “name” no singular.",
+  "tags": [
+   "apresentacao",
+   "basico"
+  ]
+ },
+ {
+  "id": "en_u1_002",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "choice",
+  "card": "en_u1_c04",
+  "prompt": "São 8 da manhã e Mr. Hill entra na sala. O que ele diz?",
+  "options": [
+   "Good morning!",
+   "Good night!",
+   "Good evening!",
+   "Good afternoon!"
+  ],
+  "answer": 0,
+  "explain": "De manhã: good morning. Good night é só para se despedir à noite.",
+  "tags": [
+   "cumprimentos"
+  ]
+ },
+ {
+  "id": "en_u1_003",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "truefalse",
+  "card": "en_u1_c07",
+  "prompt": "Verdadeiro ou falso: “grandmother” significa avó.",
+  "options": [
+   "Verdadeiro",
+   "Falso"
+  ],
+  "answer": 0,
+  "explain": "Grandmother = avó; grandfather = avô.",
+  "tags": [
+   "familia"
+  ]
+ },
+ {
+  "id": "en_u1_004",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "choice",
+  "card": "en_u1_c02",
+  "prompt": "Complete: “She ___ my friend.”",
+  "options": [
+   "is",
+   "are",
+   "am",
+   "be"
+  ],
+  "answer": 0,
+  "explain": "He/she/it usam “is”.",
+  "tags": [
+   "to_be"
+  ]
+ },
+ {
+  "id": "en_u1_005",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "choice",
+  "card": "en_u1_c06",
+  "prompt": "Como se diz “quinze” em inglês?",
+  "options": [
+   "fifteen",
+   "fifty",
+   "fiveteen",
+   "fourteen"
+  ],
+  "answer": 0,
+  "explain": "Fifteen = 15; fifty = 50; fourteen = 14.",
+  "tags": [
+   "numeros"
+  ]
+ },
+ {
+  "id": "en_u1_006",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "choice",
+  "card": "en_u1_c03",
+  "prompt": "Qual pergunta pede a cidade de origem de alguém?",
+  "options": [
+   "Where are you from?",
+   "How old are you?",
+   "What is your name?",
+   "Who is your teacher?"
+  ],
+  "answer": 0,
+  "explain": "Where = onde: “Where are you from?” = De onde você é?",
+  "tags": [
+   "perguntas"
+  ]
+ },
+ {
+  "id": "en_u1_007",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "choice",
+  "card": "en_u1_c08",
+  "prompt": "Yui adora desenhar e detesta correr. Qual frase é dela?",
+  "options": [
+   "I like drawing, but I don’t like running.",
+   "I like running, but I don’t like drawing.",
+   "I don’t like drawing or running.",
+   "I like drawing and running."
+  ],
+  "answer": 0,
+  "explain": "Like = gostar; don’t like = não gostar. Drawing = desenhar; running = correr.",
+  "tags": [
+   "gostos"
+  ]
+ },
+ {
+  "id": "en_u1_008",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "choice",
+  "card": "en_u1_c02",
+  "prompt": "Complete: “We ___ students at Hoshikawa High School.”",
+  "options": [
+   "are",
+   "is",
+   "am",
+   "be"
+  ],
+  "answer": 0,
+  "explain": "We/they usam “are”.",
+  "tags": [
+   "to_be"
+  ]
+ },
+ {
+  "id": "en_u1_009",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "truefalse",
+  "card": "en_u1_c05",
+  "prompt": "Verdadeiro ou falso: “Wednesday” é quarta-feira.",
+  "options": [
+   "Verdadeiro",
+   "Falso"
+  ],
+  "answer": 0,
+  "explain": "Monday, Tuesday, Wednesday: segunda, terça, quarta.",
+  "tags": [
+   "dias"
+  ]
+ },
+ {
+  "id": "en_u1_010",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "choice",
+  "card": "en_u1_c04",
+  "prompt": "São 19h e você chega à casa de um amigo. Qual cumprimento usar?",
+  "options": [
+   "Good evening.",
+   "Good night.",
+   "Good morning.",
+   "Good afternoon."
+  ],
+  "answer": 0,
+  "explain": "Ao chegar à noite: good evening. Good night é despedida.",
+  "tags": [
+   "cumprimentos"
+  ]
+ },
+ {
+  "id": "en_u1_011",
+  "subject": "english",
+  "unit": 1,
+  "level": 3,
+  "type": "choice",
+  "card": "en_u1_c03",
+  "prompt": "Qual pergunta está gramaticalmente correta?",
+  "options": [
+   "How old is your brother?",
+   "How old your brother is?",
+   "How your brother is old?",
+   "How is old your brother?"
+  ],
+  "answer": 0,
+  "explain": "Em perguntas com o verbo to be, o verbo vem antes do sujeito: How old is your brother?",
+  "tags": [
+   "perguntas",
+   "avancado"
+  ]
+ },
+ {
+  "id": "en_u1_012",
+  "subject": "english",
+  "unit": 1,
+  "level": 3,
+  "type": "choice",
+  "card": "en_u1_c07",
+  "prompt": "“I live with my grandmother. My parents work abroad.” O que o falante diz?",
+  "options": [
+   "Mora com a avó; os pais trabalham no exterior",
+   "Mora com os pais; a avó trabalha no exterior",
+   "Mora sozinho perto da avó",
+   "Vai visitar a avó no exterior"
+  ],
+  "answer": 0,
+  "explain": "Live with = morar com; abroad = no exterior.",
+  "tags": [
+   "familia",
+   "leitura"
+  ]
+ },
+ {
+  "id": "en_u1_013",
+  "subject": "english",
+  "unit": 1,
+  "level": 3,
+  "type": "choice",
+  "card": "en_u1_c05",
+  "prompt": "Complete a rotina: “On Mondays I ___ to school at eight, and after school I ___ basketball.”",
+  "options": [
+   "go / play",
+   "goes / plays",
+   "going / playing",
+   "went / played"
+  ],
+  "answer": 0,
+  "explain": "Presente simples com “I”: go, play (sem -s).",
+  "tags": [
+   "rotina",
+   "verbos"
+  ]
+ },
+ {
+  "id": "en_u1_014",
+  "subject": "english",
+  "unit": 1,
+  "level": 3,
+  "type": "truefalse",
+  "card": "en_u1_c06",
+  "prompt": "Verdadeiro ou falso: “I’m fifteen years old” e “I have fifteen years” são ambas corretas em inglês.",
+  "options": [
+   "Verdadeiro",
+   "Falso"
+  ],
+  "answer": 1,
+  "explain": "Em inglês, idade usa o verbo to be: “I’m fifteen (years old)”. “I have fifteen years” é tradução literal do português.",
+  "tags": [
+   "idade"
+  ]
+ },
+ {
+  "id": "en_u1_015",
+  "subject": "english",
+  "unit": 1,
+  "level": 3,
+  "type": "choice",
+  "card": "en_u1_c01",
+  "prompt": "Mr. Hill pede uma apresentação completa. Qual sequência é a mais natural?",
+  "options": [
+   "Hello! My name is Kenta. I’m fifteen. I’m from Hoshikawa. Nice to meet you!",
+   "Nice to meet you! Hoshikawa I’m from. Kenta name. Fifteen.",
+   "My name Kenta. From Hoshikawa I am. Fifteen years I have.",
+   "Hello! I’m from fifteen. My name is Hoshikawa. Kenta to meet you!"
+  ],
+  "answer": 0,
+  "explain": "Nome, idade, origem e cumprimento: a ordem clássica de uma apresentação.",
+  "tags": [
+   "apresentacao",
+   "avancado"
+  ]
+ },
+ {
+  "id": "en_u1_016",
+  "subject": "english",
+  "unit": 1,
+  "level": 1,
+  "type": "choice",
+  "card": "en_u1_c09",
+  "prompt": "Qual é o passado de “go”?",
+  "options": [
+   "went",
+   "goed",
+   "gone",
+   "goes"
+  ],
+  "answer": 0,
+  "explain": "Go é irregular: go → went. “Gone” é o particípio (have gone).",
+  "tags": [
+   "verbos",
+   "irregular"
+  ]
+ },
+ {
+  "id": "en_u1_017",
+  "subject": "english",
+  "unit": 1,
+  "level": 2,
+  "type": "choice",
+  "card": "en_u1_c09",
+  "prompt": "Complete: “Yesterday I ___ to school with Kenta.”",
+  "options": [
+   "went",
+   "go",
+   "goed",
+   "going"
+  ],
+  "answer": 0,
+  "explain": "Yesterday pede passado; go → went.",
+  "tags": [
+   "verbos",
+   "irregular"
+  ]
+ }
+]

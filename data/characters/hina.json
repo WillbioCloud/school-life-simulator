@@ -1,0 +1,18 @@
+{"id":"hina","name":"Hina Mochizuki","kanji":"望月 陽菜","role":"Representante · turma 1-A","grade":1,"class":"1-A","birthday":{"month":11,"day":6},
+ "skin":"efbd98","hair":"4a3b3a","coat":"3c5b68","style":"student",
+ "traits":["responsável","direta","perfeccionista"],"club":"council","trust_pace":1.0,
+ "interests":["organização","regras","chá"],"accepts_chat":false,
+ "mastery":{"literature":58,"math":55,"english":52,"science":54,"history":60,"pe":35,"art":40,"home_ec":60},
+ "intro":"Hina Mochizuki, representante da turma. Bem-vindo à 1-A. O mural de avisos fica no corredor; o dever é entregue na primeira aula da matéria.\n\nSe precisar de algo, me procure antes do sinal — depois eu estou ocupada.",
+ "reply":"Obrigada por perguntar. A maioria só pergunta quando já está atrasado.",
+ "repeat":"Já conversamos hoje. Confira o mural: atualizei os horários da semana de clubes.",
+ "notes":["“Não passe bilhetes. (Este não conta.)”"],
+ "chat_lines":["Hina balança a cabeça sem olhar para você. “Depois da aula.”"],
+ "routine":[
+  {"start":390,"scene":"school_hall","point":[-1,0,-3],"activity":"Checando o mural"},
+  {"start":480,"scene":"classroom","point":"seat:D1","activity":"Organizando a sala"},
+  {"start":750,"scene":"classroom","point":"seat:D1","activity":"Almoçando e revisando"},
+  {"start":795,"scene":"classroom","point":"seat:D1","activity":"Em aula"},
+  {"start":930,"scene":"school_hall","point":[0,0,-3],"activity":"Recados no mural"},
+  {"start":1000,"scene":"offscreen","point":[0,0,0],"activity":"Em casa"}],
+ "weekend":{"scene":"offscreen","point":[0,0,0],"activity":"Estudando"}}

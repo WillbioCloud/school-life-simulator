@@ -1,7 +1,7 @@
 extends Node
 ## One versioned slot; previous good save retained. Loading validates before mutation.
 const PATH := "user://first_day.json"
-const VERSION := 2
+const VERSION := 3
 var last_error: String = ""
 
 func exists() -> bool:
@@ -62,6 +62,34 @@ func migrate(data: Dictionary) -> Dictionary:
 			if not migrated.player.has("flags"):
 				migrated.player.flags = {}
 		migrated.version = 2
+	if int(migrated.get("version", 0)) == 2:
+		# v2 → v3 (seção 61.3): additive fields of the First Week milestone. Nothing is lost:
+		# every subject starts at the saved Conhecimento, the profile is the neutral default.
+		if migrated.get("player") is Dictionary:
+			var p: Dictionary = migrated.player
+			var knowledge := int(p.get("attributes", {}).get("Conhecimento", GameState.DEFAULT_STATS.Conhecimento))
+			if not p.has("background"):
+				p.background = {"origin": "capital", "reason": "own_choice", "talent": "dedicated", "traits": []}
+			if not p.get("mastery", {}) is Dictionary or p.get("mastery", {}).is_empty():
+				var mastery := {}
+				for subject in GameState.SUBJECTS:
+					mastery[subject] = clampi(knowledge, 0, 100)
+				p.mastery = mastery
+			for key in ["cards", "questions_seen", "diary", "day_log"]:
+				if not p.get(key) is Array:
+					p[key] = []
+			for key in ["notebook_pages", "counters", "quests"]:
+				if not p.get(key) is Dictionary:
+					p[key] = {}
+			if not p.get("reputation") is Dictionary:
+				p.reputation = {"academic": 0, "sports": 0, "social": 0, "institutional": 0}
+			if not p.get("discipline") is Dictionary:
+				p.discipline = {"term_points": 0, "history": []}
+			if not p.get("mood") is Dictionary:
+				p.mood = {"state": "calm", "until": ""}
+			if not p.get("mastery_today") is Dictionary:
+				p.mastery_today = {"stamp": "", "gains": {}}
+		migrated.version = 3
 	return migrated
 
 func validate(data: Dictionary) -> String:
@@ -83,9 +111,19 @@ func validate(data: Dictionary) -> String:
 	for value in p.position:
 		if not _number(value) or absf(float(value)) > 1000:
 			return "Posição fora dos limites."
-	for key in ["attributes", "inventory", "relationships", "talked", "attendance", "flags"]:
+	for key in ["attributes", "inventory", "relationships", "talked", "attendance", "flags", "background", "mastery", "notebook_pages", "reputation", "discipline", "mood", "counters", "quests", "mastery_today"]:
 		if not p.get(key, {}) is Dictionary:
 			return "Dados inválidos: " + key
+	for key in ["cards", "questions_seen", "diary", "day_log"]:
+		if not p.get(key, []) is Array:
+			return "Dados inválidos: " + key
+	for subject in p.get("mastery", {}):
+		if not _number(p.mastery[subject]) or p.mastery[subject] < 0 or p.mastery[subject] > 100:
+			return "Domínio fora dos limites."
+	if not GameState.TALENTS.has(str(p.get("background", {}).get("talent", "dedicated"))):
+		return "Talento desconhecido."
+	if not GameState.MOODS.has(str(p.get("mood", {}).get("state", "calm"))):
+		return "Humor desconhecido."
 	for key in ["attributes", "inventory", "relationships"]:
 		for value in p.get(key, {}).values():
 			if not _number(value) or value < 0:

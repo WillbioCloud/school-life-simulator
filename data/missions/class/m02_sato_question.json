@@ -1,0 +1,21 @@
+{
+ "id": "m02_sato_question",
+ "name": "A pergunta do Sato",
+ "trigger": {"from": [4, 2], "to": [4, 5], "subject": "literature"},
+ "block": 2,
+ "steps": [
+  {"id": "intro", "type": "text", "speaker": "Professor Sato",
+   "text": "“Provérbios são o jeito de quem veio antes nos emprestar a experiência.” Sato percorre a sala com os olhos e para em você. “{name}. Sua avó me contou que você já conhece um. Vamos ver.”",
+   "next": "q"},
+  {"id": "q", "type": "question", "question": "jl_u1_001", "tools": ["notebook"], "tutorial": true,
+   "on_correct": "ok", "on_wrong": "miss"},
+  {"id": "ok", "type": "text", "speaker": "Professor Sato",
+   "text": "“Muito bem. Sua avó ensina bem.” Atrás de você, alguém solta um “uau” baixinho. Tsubasa, claro.",
+   "effects": {"flags": ["first_question"], "bond": {"sato": 5}, "reputation": {"academic": 1}, "log": "Você respondeu à primeira pergunta do Sato."},
+   "next": "end"},
+  {"id": "miss", "type": "text",
+   "text": "Sato explica com calma e segue a aula como se nada tivesse acontecido. Do lado, Yui sussurra: “Eu também não sabia.”",
+   "effects": {"flags": ["first_question"], "bond": {"yui": 5}, "log": "A primeira pergunta do Sato não saiu como você queria. Yui sussurrou algo gentil."},
+   "next": "end"}
+ ]
+}

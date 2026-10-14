@@ -1,0 +1,10 @@
+[
+ {"id":"ci_u1_c01","subject":"science","unit":1,"title":"Método científico","text":"Observação → pergunta → hipótese → experimento → conclusão. A ordem importa: primeiro se observa, depois se testa."},
+ {"id":"ci_u1_c02","subject":"science","unit":1,"title":"Hipótese","text":"Uma explicação provisória que pode ser testada. Se o experimento a contradiz, ela é revista — isso não é fracasso, é método."},
+ {"id":"ci_u1_c03","subject":"science","unit":1,"title":"Unidades de medida","text":"Comprimento em metros (m), massa em quilogramas (kg), tempo em segundos (s), temperatura em graus Celsius (°C), volume em litros (L)."},
+ {"id":"ci_u1_c04","subject":"science","unit":1,"title":"Prefixos","text":"Quilo = mil (1 km = 1.000 m). Centi = centésimo (1 m = 100 cm). Mili = milésimo (1 L = 1.000 mL)."},
+ {"id":"ci_u1_c05","subject":"science","unit":1,"title":"Instrumentos","text":"Régua mede comprimento; balança mede massa; termômetro mede temperatura; proveta mede volume; cronômetro mede tempo."},
+ {"id":"ci_u1_c06","subject":"science","unit":1,"title":"Variável controlada","text":"Em um experimento, mude uma coisa de cada vez. Se mudar duas, não dá para saber qual causou o resultado."},
+ {"id":"ci_u1_c07","subject":"science","unit":1,"title":"Registro e repetição","text":"Anote os dados em tabela e repita as medidas: a média de várias medições reduz o erro de uma só."},
+ {"id":"ci_u1_c08","subject":"science","unit":1,"title":"Segurança no laboratório","text":"Óculos de proteção, cabelo preso, nunca provar substâncias e apagar a chama antes de sair. Fujii repete isso toda semana."}
+]

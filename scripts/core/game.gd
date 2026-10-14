@@ -14,6 +14,7 @@ var transitioning: bool = false
 var interacting_npc: NPCActor
 
 func _ready() -> void:
+	get_window().title = "School Life — First Week"
 	GameControls.install()
 	light = Daylight.new()
 	add_child(light)
@@ -22,6 +23,7 @@ func _ready() -> void:
 	npcs = NPCManager.new()
 	add_child(npcs)
 	ui = GameUI.new()
+	ui.resolve_name = npcs.display_name
 	add_child(ui)
 	actions = GameActions.new()
 	actions.game = self
@@ -92,14 +94,15 @@ func transition(id: String, spawn: String) -> void:
 	GameTime.paused = not ui.current_modal.is_empty()
 
 func start_new(data: Dictionary) -> void:
-	GameState.reset(data.name,data.skin,data.hair)
+	GameState.reset(data.name,data.skin,data.hair,{"origin":data.get("origin","capital"),"reason":data.get("reason","own_choice"),"talent":data.get("talent","dedicated"),"traits":data.get("traits",[])})
 	GameTime.reset()
+	actions.session = null
 	load_region("bedroom","start")
 	running = true
 	ui.begin_play()
 	ui.open_modal("Bom dia, Hoshikawa","SEGUNDA-FEIRA  /  1º DE ABRIL","welcome")
 	ui.text_block("A luz da manhã atravessa as cortinas do seu novo quarto. Lá fora, a cidade já está acordando.\n\nSua avó deixou um bilhete na sala. A escola espera por você às 08:25 — mas primeiro, respire. Este é só o começo.")
-	ui.text_block("Use WASD para caminhar. Aproxime-se de portas e objetos e pressione E.\n\nTab abre seu celular com a agenda; M mostra o caminho para a escola.")
+	ui.text_block("Use WASD para caminhar. Aproxime-se de portas e objetos e pressione E.\n\nTab abre seu celular com a agenda, o caderno e o grupo da turma; M mostra o caminho para a escola.")
 	ui.option("Levantar e começar   →","close",{},true)
 
 func load_saved(backup: bool = false) -> void:
@@ -110,6 +113,7 @@ func load_saved(backup: bool = false) -> void:
 			ui.option("Tentar backup anterior","load_backup")
 		return
 	var pos := GameState.player_position
+	actions.session = null
 	load_region(GameState.scene_id,"start",false,pos)
 	running = true
 	ui.begin_play()
@@ -124,8 +128,10 @@ func save_current() -> bool:
 func sleep_day(forced: bool = false) -> void:
 	var tired := GameTime.minute >= 1380
 	GameTime.paused = true
-	GameState.energy = 80 if tired else 100
+	actions.session = null
+	var entry := DayCycle.close_day(forced, tired)
 	GameTime.sleep()
+	var morning := DayCycle.open_day()
 	if GameState.flags.has("class"):
 		GameState.mark("slept")
 	load_region("bedroom","start")
@@ -134,10 +140,21 @@ func sleep_day(forced: bool = false) -> void:
 	var saved := save_current()
 	ui.open_modal("Uma nova manhã","%s  /  %s" % [GameTime.date_label(),GameTime.clock()],"morning")
 	ui.text_block(("O sono chegou antes de você. Você voltou ao quarto e descansou.\n\n" if forced else "Você guardou mais um dia na memória.\n\n") + ("Dormir tarde deixou um pouco de cansaço: energia 80/100." if tired else "Um bom descanso. Sua energia foi recuperada."))
-	if GameState.flags.has("slept"):
-		ui.text_block("Ciclo First Day validado! Você foi à escola, participou de uma atividade e voltou para dormir. Pode continuar explorando os próximos dias.")
+	ui.modal_body.add_child(ui.label("DIÁRIO  ·  " + str(entry.get("date","")),13,ui.ACCENT))
+	for line in entry.get("lines",[]):
+		ui.modal_body.add_child(ui.label("· " + str(line),16,ui.INK,true))
+	var note_input := LineEdit.new()
+	note_input.placeholder_text = "Uma frase sua para este dia (opcional)"
+	note_input.max_length = 140
+	note_input.custom_minimum_size.y = 44
+	ui.modal_body.add_child(note_input)
+	for line in morning:
+		ui.modal_body.add_child(ui.label(str(line),16,ui.ACCENT,true))
+	if GameState.flags.has("slept") and not GameState.flags.has("first_day_toast"):
+		GameState.mark("first_day_toast")
+		ui.text_block("Ciclo First Day validado! Agora a semana segue: cada aula tem posturas, Janelas de Questão e vizinhos de carteira.")
 	ui.text_block("Progresso salvo automaticamente." if saved else "Atenção: não foi possível salvar. " + SaveSystem.last_error)
-	ui.option("Ver o que o dia traz   →","close",{},true)
+	ui.modal_body.add_child(ui.button("Ver o que o dia traz   →",func(): ui.command.emit("diary_note",{"note":note_input.text}),true))
 
 func _forced_sleep() -> void:
 	if running:

@@ -8,6 +8,8 @@ var route: Array[Vector3] = []
 var patrol: bool = false
 var route_index: int = 0
 var talking: bool = false
+var seated_target: bool = false
+var seated: bool = false
 
 func _ready() -> void:
 	collision_layer = 0
@@ -32,6 +34,8 @@ func set_routine(entry: Dictionary, start_pos: Vector3) -> void:
 	position = start_pos
 	activity = str(entry.activity)
 	patrol = entry.has("patrol")
+	seated_target = bool(entry.get("seated", false))
+	_set_seated(false)
 	route.clear()
 	route_index = 0
 	var points: Array = entry.get("patrol",entry.get("via",[])).duplicate()
@@ -39,10 +43,25 @@ func set_routine(entry: Dictionary, start_pos: Vector3) -> void:
 		points.append(entry.point)
 	for p in points:
 		route.append(Vector3(p[0],0.05,p[2]))
+	# Spawning directly on a chair: sit at once instead of walking into the desk.
+	if seated_target and start_pos.distance_to(route[route.size()-1]) < 0.3:
+		_set_seated(true)
+
+## Seated actors ignore chair collisions and face the board (seção 46.9).
+func _set_seated(value: bool) -> void:
+	if seated == value:
+		return
+	seated = value
+	collision_mask = 0 if value else 1
+	if is_instance_valid(visual):
+		visual.set_seated(value)
+		if value:
+			visual.rotation.y = 0
 
 func _physics_process(delta: float) -> void:
-	if GameTime.paused or talking or route.is_empty():
-		visual.animate(delta,0)
+	if GameTime.paused or talking or route.is_empty() or seated:
+		if is_instance_valid(visual):
+			visual.animate(delta,0)
 		return
 	var goal: Vector3 = route[route_index]
 	var direction := goal-position
@@ -52,6 +71,9 @@ func _physics_process(delta: float) -> void:
 			route_index = (route_index+1)%route.size()
 		elif route_index < route.size()-1:
 			route_index += 1
+		elif seated_target:
+			position = Vector3(goal.x, position.y, goal.z)
+			_set_seated(true)
 		velocity.x = 0
 		velocity.z = 0
 	else:

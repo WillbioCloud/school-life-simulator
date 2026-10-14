@@ -1,0 +1,33 @@
+{
+ "id": "m01_first_call",
+ "name": "Primeira chamada",
+ "trigger": {"from": [4, 1], "to": [4, 5], "first_attended": true},
+ "block": 0,
+ "memory": "O primeiro dia na 1-A",
+ "steps": [
+  {"id": "intro", "type": "text", "speaker": "Professor Sato",
+   "text": "“Antes da chamada, uma apresentação curta. Nome e uma coisa que gostem.” Hina vai primeiro, sem hesitar: chá e horários. Kenta: “ramen, basquete, ramen”. Yui diz “desenho” tão baixo que Sato pede para repetir. Daichi: “Matemática.” Aiko: “natação — e conhecer gente nova”, olhando para você. Tsubasa: “arcade. E fazer o Sato rir. Ainda não consegui.”\n\nSato sorri sem rir. “{name}. Sua vez.”",
+   "next": "facts"},
+  {"id": "facts", "type": "multi", "pick": 2, "prompt": "Escolha duas coisas para contar sobre você.",
+   "options": [
+    {"id": "origin", "text": "{origin_fact}",
+     "effects_by_origin": {"capital": {"bond": {"aiko": 10}, "log": "Aiko quer saber tudo sobre as lojas da capital."},
+                           "countryside": {"bond": {"yui": 10}, "log": "Yui levanta os olhos quando você fala das montanhas."},
+                           "abroad": {"bond": {"kenta": 10}, "log": "Kenta sussurra: “Você fala inglês de verdade? Me salva.”"}}},
+    {"id": "hobby", "text": "{talent_fact}",
+     "effects_by_talent": {"dedicated": {"bond": {"daichi": 10, "hina": 10}, "log": "Daichi anota mentalmente um concorrente. Hina aprova."},
+                           "athlete": {"bond": {"kenta": 10, "aiko": 10}, "log": "Kenta e Aiko trocam um olhar: recruta."},
+                           "artist": {"bond": {"yui": 10, "tsubasa": 10}, "log": "Yui sorri para o caderno. Tsubasa levanta o polegar."},
+                           "social": {"bond": {"aiko": 10, "tsubasa": 10}, "log": "Aiko já está planejando apresentá-lo à escola inteira."}}},
+    {"id": "dream", "text": "“Ainda não sei o que quero ser. Mas quero descobrir aqui.”",
+     "effects": {"bond": {"hina": 5, "yui": 5}, "log": "Hina anota algo. Yui concorda com a cabeça, bem de leve."}},
+    {"id": "nothing", "text": "“Nada de especial.”",
+     "effects": {"bond": {"tsubasa": 10}, "log": "Tsubasa ri alto: “Finalmente alguém honesto!” Hina anota o nome dele. De novo."}}
+   ],
+   "next": "close"},
+  {"id": "close", "type": "text", "speaker": "Professor Sato",
+   "text": "“Obrigado. Um provérbio para começar o ano: nana korobi ya oki — cair sete vezes, levantar oito. Vamos à chamada.”",
+   "effects": {"flags": ["intro_done"], "cards": ["jl_u1_c01"], "attributes": {"Carisma": 1}, "log": "Primeira chamada concluída: a 1-A conhece seu nome."},
+   "next": "end"}
+ ]
+}
