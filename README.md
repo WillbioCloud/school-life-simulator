@@ -4,7 +4,9 @@
 
 Um primeiro dia em Hoshikawa: acordar, conhecer a casa da avó, percorrer a rua das cerejeiras, encontrar colegas, participar de uma atividade escolar e voltar para dormir.
 
-Esta implementação segue o **escopo de validação da seção 40 do Documento Mestre V2.0**. Não representa o jogo completo, nem um primeiro ano de conteúdo comercial. O repositório original continha somente um README; não havia um projeto 2D para migrar.
+Esta implementação segue o **escopo de validação da seção 40 do Documento Mestre**. Não representa o jogo completo, nem um primeiro ano de conteúdo comercial. O repositório original continha somente um README; não havia um projeto 2D para migrar.
+
+> **Documento Mestre V3.0:** [`docs/DOCUMENTO_MESTRE_V3.md`](docs/DOCUMENTO_MESTRE_V3.md) consolida a V2.0 (Parte I) e continua o planejamento (Parte II): protagonista aprofundado, aulas com Momentos de Aula, Missões de Sala e Janela de Questão, elenco completo, calendário dia a dia do Ano 1, clubes, missões, economia e roadmap 0.2–1.0. A Parte II é especificação, não funcionalidade implementada.
 
 ## Abrir e jogar
 
@@ -106,4 +108,4 @@ O script importa o projeto, executa os testes headless e isola o diretório de s
 
 **Validação local:** 62 verificações aprovadas, zero falhas e nenhum erro de script/runtime na execução final com Godot 4.7.2 compilada em modo headless. Isso valida lógica e integração, **não qualidade visual, desempenho gráfico ou usabilidade por controle real**. Veja [`docs/VALIDATION.md`](docs/VALIDATION.md) para a metodologia e o roteiro de teste manual pendente.
 
-Mais detalhes: [`docs/DECISIONS.md`](docs/DECISIONS.md).
+Mais detalhes: [`docs/DECISIONS.md`](docs/DECISIONS.md). Planejamento completo: [`docs/DOCUMENTO_MESTRE_V3.md`](docs/DOCUMENTO_MESTRE_V3.md).

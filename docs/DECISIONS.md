@@ -2,6 +2,8 @@
 
 Referência: Documento Mestre School Life 3D V2.0 fornecido pelo responsável pelo projeto. Registro: 14 de outubro de 2026.
 
+> **Atualização (14/10/2026):** o Documento Mestre foi consolidado e expandido na **V3.0** em [`DOCUMENTO_MESTRE_V3.md`](DOCUMENTO_MESTRE_V3.md). A Parte I preserva a V2.0; a Parte II (seções 44–64) acrescenta protagonista aprofundado, aulas em cinco fases com Postura de Foco, Momentos de Aula, Missões de Sala e Janela de Questão, currículo e banco de questões, provas e boletim, elenco de 50 personagens, mapa de assentos, vínculo em níveis, missões, clubes, conselho, calendário central do Ano 1, economia, celular, novos locais, arquitetura (save v3) e roadmap 0.2–1.0. **Nenhum código foi alterado nesta revisão**; as soluções provisórias abaixo continuam descrevendo o protótipo 0.1. O próximo marco proposto é o 0.2 "First Week" (seção 62 da V3).
+
 ## Escopo preservado
 
 - Godot **4.7.2**, GDScript e mundo 3D. Nenhuma migração de engine: não havia projeto anterior no checkout.
